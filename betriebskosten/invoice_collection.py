@@ -1,0 +1,57 @@
+from dataclasses import dataclass, field
+from decimal import Decimal
+from typing import Final
+
+from betriebskosten.allocation_strategy import AllocationStrategy
+from betriebskosten.building import Building
+from betriebskosten.invoice import Invoice
+from betriebskosten.tenant import Tenant
+from betriebskosten.time_period import TimePeriod
+
+
+@dataclass(frozen=True)
+class InvoiceCollection:
+    name: str
+    invoices: list[Invoice]
+    allocation_strategy: AllocationStrategy
+    gross_total: Decimal = field(init=False)
+    net_total: Decimal = field(init=False)
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "gross_total", self._gross_total())
+        object.__setattr__(self, "net_total", self._net_total())
+
+    def _gross_total(self) -> Decimal:
+        """Calculates the gross total of a sequence of invoices."""
+        return Decimal(sum([i.gross_amount for i in self.invoices]))
+
+    def _net_total(self) -> Decimal:
+        """Calculates the net total of a sequence of invoices."""
+        return Decimal(sum([i.net_amount for i in self.invoices]))
+
+    def total_shares(
+        self,
+        accounting_period: TimePeriod,
+        building: Building,
+    ) -> Decimal:
+        return self.allocation_strategy.total_shares(accounting_period, building)
+
+    def tenant_shares(
+        self,
+        accounting_period: TimePeriod,
+        building: Building,
+        tenant: Tenant,
+    ) -> Decimal:
+        return self.allocation_strategy.tenant_shares(
+            accounting_period, building, tenant
+        )
+
+    def get_privileged_invoices_by_issuer(self) -> dict[str, list[Invoice]]:
+        issuer_invoices: Final[dict[str, list[Invoice]]] = dict()
+        for invoice in self.invoices:
+            if invoice.privileged_amount > 0:
+                if invoice.issuer_name in issuer_invoices:
+                    issuer_invoices[invoice.issuer_name].append(invoice)
+                else:
+                    issuer_invoices[invoice.issuer_name] = [invoice]
+        return issuer_invoices
