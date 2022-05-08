@@ -9,7 +9,7 @@ from betriebskosten.tenant import Tenant
 from betriebskosten.time_period import TimePeriod
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class InvoiceCollection:
     name: str
     invoices: list[Invoice]

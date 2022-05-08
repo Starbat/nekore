@@ -4,7 +4,7 @@ from decimal import Decimal
 from betriebskosten.tenant import Tenant
 
 
-@dataclass(frozen=True, eq=True)
+@dataclass(frozen=True, eq=True, slots=True)
 class Apartment:
     floor_space: Decimal
     name: str | None = None

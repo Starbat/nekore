@@ -5,7 +5,7 @@ from typing import Any
 from .tenant import Tenant
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class DirectInvoiceStrategy:
     name: str
     tenant: Tenant

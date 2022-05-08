@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class LaborCostItem:
     collection_name: str
     issuer_name: str

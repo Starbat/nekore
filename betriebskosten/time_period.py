@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from typing import Union
 
 
-@dataclass(frozen=True, eq=True)
+@dataclass(frozen=True, eq=True, slots=True)
 class TimePeriod:
     """A period between two dates."""
 

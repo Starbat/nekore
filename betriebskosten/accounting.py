@@ -8,7 +8,7 @@ from betriebskosten.labor_cost_item import LaborCostItem
 from betriebskosten.time_period import TimePeriod
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Accounting:
     recipient: Address
     number_of_people: int
