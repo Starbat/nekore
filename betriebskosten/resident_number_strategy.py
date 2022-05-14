@@ -15,11 +15,10 @@ class ResidentNumberStrategy:
         accounting_period: TimePeriod,
         building: Building,
     ) -> Decimal:
-        person_days: int = 0
+        total_person_days: Decimal = Decimal(0)
         for tenant in building.get_tenants():
-            relevant_days = tenant.period.intersection(accounting_period).days
-            person_days += tenant.number_of_people * relevant_days
-        return Decimal(person_days)
+            total_person_days += self._person_days(tenant, accounting_period)
+        return total_person_days / accounting_period.duration.days
 
     def tenant_shares(
         self,
@@ -27,5 +26,9 @@ class ResidentNumberStrategy:
         building: Building,
         tenant: Tenant,
     ) -> Decimal:
-        relevant_days = tenant.period.intersection(accounting_period).days
-        return Decimal(tenant.number_of_people * relevant_days)
+        person_days = self._person_days(tenant, accounting_period)
+        return person_days / accounting_period.duration.days
+
+    def _person_days(self, tenant: Tenant, accounting_period: TimePeriod) -> Decimal:
+        use_days = tenant.period.intersection(accounting_period).days
+        return Decimal(tenant.number_of_people * use_days)

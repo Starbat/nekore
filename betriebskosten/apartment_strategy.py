@@ -16,7 +16,7 @@ class ApartmentStrategy:
         accounting_period: TimePeriod,
         building: Building,
     ) -> Decimal:
-        return Decimal(len(building.apartments) * accounting_period.duration.days)
+        return Decimal(len(building.apartments))
 
     def tenant_shares(
         self,
@@ -24,4 +24,5 @@ class ApartmentStrategy:
         _: Any,
         tenant: Tenant,
     ) -> Decimal:
-        return Decimal(accounting_period.intersection(tenant.period).days)
+        use_days = Decimal(accounting_period.intersection(tenant.period).days)
+        return use_days / accounting_period.duration.days
