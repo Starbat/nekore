@@ -23,3 +23,9 @@ class Building:
             for t in a.tenants
             if period is None or period.intersection(t.period).days > 0
         )
+
+    def get_apartment(self, tenant: Tenant) -> Apartment:
+        apartments = [a for a in self.apartments if tenant in a.tenants]
+        if len(apartments) != 1:
+            raise NotImplementedError
+        return apartments[0]

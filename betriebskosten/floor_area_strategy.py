@@ -9,7 +9,10 @@ from betriebskosten.time_period import TimePeriod
 
 @dataclass(frozen=True, slots=True)
 class FloorAreaStrategy:
-    name: str
+    name: str = "NHN"
+
+    def get_name(self) -> str:
+        return self.name
 
     def total_shares(
         self,

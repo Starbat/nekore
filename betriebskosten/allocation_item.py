@@ -11,3 +11,4 @@ class AllocationItem:
     net_share: Decimal
     shares_total: Decimal
     shares_allocated: Decimal
+    allocation_name: str

@@ -7,8 +7,11 @@ from .tenant import Tenant
 
 @dataclass(frozen=True, slots=True)
 class DirectInvoiceStrategy:
-    name: str
     tenant: Tenant
+    name: str = "Direkt"
+
+    def get_name(self) -> str:
+        return self.name
 
     def total_shares(self, *args: Any) -> Decimal:
         return Decimal("1")

@@ -5,6 +5,7 @@ from typing import Final
 from betriebskosten.accounting import Accounting
 from betriebskosten.allocation_item import AllocationItem
 from betriebskosten.building import Building
+from betriebskosten.contact import Contact
 from betriebskosten.invoice_collection import InvoiceCollection
 from betriebskosten.labor_cost_item import LaborCostItem
 from betriebskosten.tenant import Tenant
@@ -13,6 +14,7 @@ from betriebskosten.time_period import TimePeriod
 
 @dataclass(frozen=True, slots=True)
 class AccountingProcessor:
+    issuer: Contact
     period: TimePeriod
     building: Building
     invoice_collections: list[InvoiceCollection]
@@ -31,9 +33,13 @@ class AccountingProcessor:
                 for item in self._create_labor_cost_items(collection, tenant)
                 if item.share_amount > 0
             ]
+        apartment: Final = self.building.get_apartment(tenant)
         return Accounting(
-            recipient=tenant.invoice_address,
+            issuer=self.issuer,
+            recipient=tenant.contact,
             number_of_people=tenant.number_of_people,
+            floor_space=apartment.floor_space,
+            apartment_name=apartment.name if apartment.name else "",
             accounting_period=self.period,
             usage_period=tenant.period,
             prepaid=tenant.prepaid,
@@ -69,6 +75,7 @@ class AccountingProcessor:
             net_share=ratio * invoice_collection.net_total,
             shares_total=total_shares,
             shares_allocated=tenant_shares,
+            allocation_name=invoice_collection.allocation_strategy.get_name(),
             name=invoice_collection.name,
         )
 

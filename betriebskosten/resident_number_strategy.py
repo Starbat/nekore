@@ -8,7 +8,10 @@ from betriebskosten.time_period import TimePeriod
 
 @dataclass(frozen=True, slots=True)
 class ResidentNumberStrategy:
-    name: str
+    name: str = "PNZ"
+
+    def get_name(self) -> str:
+        return self.name
 
     def total_shares(
         self,

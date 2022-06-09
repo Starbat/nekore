@@ -2,16 +2,19 @@ import datetime as dt
 from dataclasses import dataclass, field
 from decimal import Decimal
 
-from betriebskosten.address import Address
 from betriebskosten.allocation_item import AllocationItem
+from betriebskosten.contact import Contact
 from betriebskosten.labor_cost_item import LaborCostItem
 from betriebskosten.time_period import TimePeriod
 
 
 @dataclass(frozen=True, slots=True)
 class Accounting:
-    recipient: Address
+    issuer: Contact
+    recipient: Contact
     number_of_people: int
+    floor_space: Decimal
+    apartment_name: str
     accounting_period: TimePeriod
     usage_period: TimePeriod
     prepaid: Decimal
@@ -32,3 +35,6 @@ class Accounting:
 
     def _labor_costs_total(self) -> Decimal:
         return Decimal(sum(lc.share_amount for lc in self.labor_cost_items))
+
+    def has_refund(self) -> bool:
+        return self.refund >= 0
