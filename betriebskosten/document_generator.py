@@ -214,7 +214,7 @@ class DocumentGenerator:
         pdf.set_font("helvetica", "B", FontSize.TABLE)
         header_align = "L"
         pdf.epw
-        col_w: list[int] = [pdf.epw * 1 / 3] + [pdf.epw * (2 / 3) * (1 / 5)] * 5
+        col_w: list[int] = [55, 20, 30, 24, 30, 0]
         pdf.cell(col_w[0], 6, "Kategorie", border="B", align=header_align)
         pdf.cell(col_w[1], 6, "Schlüssel", border="B", align=header_align)
         pdf.cell(col_w[2], 6, "Anteile gesamt", border="B", align=header_align)
@@ -290,13 +290,7 @@ class DocumentGenerator:
         pdf.set_text_color(**Color.BLACK)
         pdf.set_draw_color(**Color.BLACK)
         pdf.set_font("helvetica", "B", FontSize.TABLE)
-        col_w: list[int] = (
-            [pdf.epw * 3 / 10]
-            + [pdf.epw * 2 / 10]
-            + [pdf.epw * 5 / 10 * (1 / 4)] * 2
-            + [pdf.epw * 5 / 10 * (1 / 4)]
-            + [pdf.epw * 5 / 10 * (1 / 4)]
-        )
+        col_w: list[int] = [55, 40, 27, 27, 15, 0]
         # Table header
         header_align = "L"
         pdf.cell(col_w[0], 6, "Kategorie", border="B", align=header_align)
