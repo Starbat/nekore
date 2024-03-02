@@ -22,10 +22,8 @@ class AccountingProcessor:
     invoice_collections: list[InvoiceCollection]
 
     def create_accountings(self) -> list[Accounting]:
-        accountings: Final[list[Accounting]] = []
-        for tenant in self.building.get_tenants(self.period):
-            accountings.append(self._create_accounting(tenant))
-        return accountings
+        tenants_in_period: Final = self.building.get_tenants(self.period)
+        return [self._create_accounting(tenant) for tenant in tenants_in_period]
 
     def _create_accounting(self, tenant: Tenant) -> Accounting:
         labor_cost_items: list[LaborCostItem] = []
