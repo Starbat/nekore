@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from decimal import Decimal
-from typing import Final
+from typing import Final, Iterator
 
 from .allocation_strategy import AllocationStrategy
 from .building import Building
@@ -50,7 +50,8 @@ class InvoiceCollection:
     def privileged_invoices(self) -> Iterator[Invoice]:
         return filter(lambda i: i.privileged_amount > 0, self.invoices)
 
-    def get_privileged_invoices_by_issuer(self) -> dict[str, list[Invoice]]:
+    @property
+    def privileged_invoices_by_issuer(self) -> dict[str, list[Invoice]]:
         issuer_invoices: Final[dict[str, list[Invoice]]] = dict()
         for invoice in self.privileged_invoices:
             if invoice.issuer_name in issuer_invoices:

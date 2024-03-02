@@ -90,7 +90,7 @@ class AccountingProcessor:
         )
         ratio: Final = tenant_shares / total_shares
 
-        issuer_invoices: Final = invoice_collection.get_privileged_invoices_by_issuer()
+        issuer_invoices: Final = invoice_collection.privileged_invoices_by_issuer
         return [
             LaborCostItem(
                 collection_name=invoice_collection.name,
