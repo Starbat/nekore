@@ -52,7 +52,7 @@ class DocumentGenerator:
 
         pdf.multi_cell(
             0,
-            9,
+            6,
             f"{accounting.recipient.name}\n{accounting.recipient.street} "
             f"{accounting.recipient.house_number}\n{accounting.recipient.zip_code} "
             f"{accounting.recipient.city}",
