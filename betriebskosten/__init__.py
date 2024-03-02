@@ -5,7 +5,7 @@ from .calculations import (
     FloorAreaStrategy,
     ResidentNumberStrategy,
 )
-from .document_generator import DocumentGenerator
+from .document import DocumentGenerator
 from .models import (
     Accounting,
     AllocationItem,

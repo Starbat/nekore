@@ -1,5 +1,7 @@
 from fpdf import FPDF
 
+from .assets import top_ornament
+
 
 class PDF(FPDF):
     def __init__(self) -> None:
@@ -8,7 +10,7 @@ class PDF(FPDF):
 
     def header(self) -> None:
         self.set_margin(0)
-        self.image("betriebskosten/assets/top_ornament.png", w=self.epw)
+        self.image(top_ornament, w=self.epw)
 
     def footer(self) -> None:
         # Position cursor at 1.5 cm from bottom:
