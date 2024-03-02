@@ -436,6 +436,31 @@ pluggy = ">=1.3.0,<2.0"
 testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
 
 [[package]]
+name = "types-fpdf2"
+version = "2.7.8.20240217"
+description = "Typing stubs for fpdf2"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "types-fpdf2-2.7.8.20240217.tar.gz", hash = "sha256:0e4a69a8214f75e967119980388b627accccff3f27a8e72605ebd954148377e8"},
+    {file = "types_fpdf2-2.7.8.20240217-py3-none-any.whl", hash = "sha256:dc5b5b2cd04e912b7e3f8e98579c685a82eba83cd4dc5390ddfd9af4559176e8"},
+]
+
+[package.dependencies]
+types-Pillow = ">=9.2.0"
+
+[[package]]
+name = "types-pillow"
+version = "10.2.0.20240213"
+description = "Typing stubs for Pillow"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "types-Pillow-10.2.0.20240213.tar.gz", hash = "sha256:4800b61bf7eabdae2f1b17ade0d080709ed33e9f26a2e900e470e8b56ebe2387"},
+    {file = "types_Pillow-10.2.0.20240213-py3-none-any.whl", hash = "sha256:062c5a0f20301a30f2df4db583f15b3c2a1283a12518d1f9d81396154e12c1af"},
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.10.0"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -449,4 +474,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "40eb7ca49c06e8aa55c4c52fdefdc80506dc24d515818c1ecc0a5051087e0f0f"
+content-hash = "eddece9be3f4abfc2d32902f71b1cafe3cf4bc4652d34be24ade3582802943ae"
