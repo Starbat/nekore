@@ -2,10 +2,10 @@ import datetime as dt
 from dataclasses import dataclass, field
 from decimal import Decimal
 
-from betriebskosten.allocation_item import AllocationItem
-from betriebskosten.contact import Contact
-from betriebskosten.labor_cost_item import LaborCostItem
-from betriebskosten.time_period import TimePeriod
+from .allocation_item import AllocationItem
+from .contact import Contact
+from .labor_cost_item import LaborCostItem
+from .time_period import TimePeriod
 
 
 @dataclass(frozen=True, slots=True)

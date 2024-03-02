@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field
 from typing import Iterator
 
-from betriebskosten.apartment import Apartment
-from betriebskosten.tenant import Tenant
-from betriebskosten.time_period import TimePeriod
+from .apartment import Apartment
+from .tenant import Tenant
+from .time_period import TimePeriod
 
 
 @dataclass(frozen=True, slots=True)

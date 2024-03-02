@@ -1,9 +1,9 @@
 from decimal import Decimal
 from typing import Protocol
 
-from betriebskosten.building import Building
-from betriebskosten.tenant import Tenant
-from betriebskosten.time_period import TimePeriod
+from .building import Building
+from .tenant import Tenant
+from .time_period import TimePeriod
 
 
 class AllocationStrategy(Protocol):
@@ -11,20 +11,17 @@ class AllocationStrategy(Protocol):
     A class which calculates how costs are allocated among tenants.
     """
 
-    def get_name(self) -> str:
-        ...
+    def get_name(self) -> str: ...
 
     def total_shares(
         self,
         accounting_period: TimePeriod,
         building: Building,
-    ) -> Decimal:
-        ...
+    ) -> Decimal: ...
 
     def tenant_shares(
         self,
         accounting_period: TimePeriod,
         building: Building,
         tenant: Tenant,
-    ) -> Decimal:
-        ...
+    ) -> Decimal: ...

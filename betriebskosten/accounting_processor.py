@@ -2,14 +2,16 @@ from dataclasses import dataclass
 from decimal import Decimal
 from typing import Final
 
-from betriebskosten.accounting import Accounting
-from betriebskosten.allocation_item import AllocationItem
-from betriebskosten.building import Building
-from betriebskosten.contact import Contact
-from betriebskosten.invoice_collection import InvoiceCollection
-from betriebskosten.labor_cost_item import LaborCostItem
-from betriebskosten.tenant import Tenant
-from betriebskosten.time_period import TimePeriod
+from .models import (
+    Accounting,
+    AllocationItem,
+    Building,
+    Contact,
+    InvoiceCollection,
+    LaborCostItem,
+    Tenant,
+    TimePeriod,
+)
 
 
 @dataclass(frozen=True, slots=True)

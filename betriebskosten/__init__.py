@@ -1,18 +1,20 @@
-from betriebskosten.accounting import Accounting
-from betriebskosten.accounting_processor import AccountingProcessor
-from betriebskosten.allocation_item import AllocationItem
-from betriebskosten.allocation_strategy import AllocationStrategy
-from betriebskosten.apartment import Apartment
-from betriebskosten.apartment_strategy import ApartmentStrategy
-from betriebskosten.bank_account import BankAccount
-from betriebskosten.building import Building
-from betriebskosten.contact import Contact
-from betriebskosten.direct_invoice_strategy import DirectInvoiceStrategy
-from betriebskosten.document_generator import DocumentGenerator
-from betriebskosten.floor_area_strategy import FloorAreaStrategy
-from betriebskosten.invoice import Invoice
-from betriebskosten.invoice_collection import InvoiceCollection
-from betriebskosten.labor_cost_item import LaborCostItem
-from betriebskosten.resident_number_strategy import ResidentNumberStrategy
-from betriebskosten.tenant import Tenant
-from betriebskosten.time_period import TimePeriod
+from .accounting_processor import AccountingProcessor
+from .apartment_strategy import ApartmentStrategy
+from .direct_invoice_strategy import DirectInvoiceStrategy
+from .document_generator import DocumentGenerator
+from .floor_area_strategy import FloorAreaStrategy
+from .models import (
+    Accounting,
+    AllocationItem,
+    AllocationStrategy,
+    Apartment,
+    BankAccount,
+    Building,
+    Contact,
+    Invoice,
+    InvoiceCollection,
+    LaborCostItem,
+    Tenant,
+    TimePeriod,
+)
+from .resident_number_strategy import ResidentNumberStrategy

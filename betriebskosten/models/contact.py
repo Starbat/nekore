@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from betriebskosten.bank_account import BankAccount
+from .bank_account import BankAccount
 
 
 @dataclass(frozen=True, slots=True)

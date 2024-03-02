@@ -1,10 +1,7 @@
 from dataclasses import dataclass
 from decimal import Decimal
 
-from betriebskosten.apartment import Apartment
-from betriebskosten.building import Building
-from betriebskosten.tenant import Tenant
-from betriebskosten.time_period import TimePeriod
+from .models import Apartment, Building, Tenant, TimePeriod
 
 
 @dataclass(frozen=True, slots=True)

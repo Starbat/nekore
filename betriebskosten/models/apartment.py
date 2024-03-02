@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from decimal import Decimal
 
-from betriebskosten.tenant import Tenant
+from .tenant import Tenant
 
 
 @dataclass(frozen=True, eq=True, slots=True)

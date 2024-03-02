@@ -4,8 +4,8 @@ from typing import Final
 
 from fpdf import FPDF
 
-from .accounting import Accounting
 from .document_template import PDF
+from .models import Accounting
 
 
 @dataclass(frozen=True, slots=True)

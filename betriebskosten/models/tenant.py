@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from decimal import Decimal
 
-from betriebskosten.contact import Contact
-from betriebskosten.time_period import TimePeriod
+from .contact import Contact
+from .time_period import TimePeriod
 
 
 @dataclass(frozen=True, slots=True)

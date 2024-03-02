@@ -2,9 +2,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 from typing import Any
 
-from betriebskosten.building import Building
-from betriebskosten.tenant import Tenant
-from betriebskosten.time_period import TimePeriod
+from .models import Building, Tenant, TimePeriod
 
 
 @dataclass(frozen=True, slots=True)

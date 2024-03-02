@@ -2,11 +2,11 @@ from dataclasses import dataclass, field
 from decimal import Decimal
 from typing import Final
 
-from betriebskosten.allocation_strategy import AllocationStrategy
-from betriebskosten.building import Building
-from betriebskosten.invoice import Invoice
-from betriebskosten.tenant import Tenant
-from betriebskosten.time_period import TimePeriod
+from .allocation_strategy import AllocationStrategy
+from .building import Building
+from .invoice import Invoice
+from .tenant import Tenant
+from .time_period import TimePeriod
 
 
 @dataclass(frozen=True, slots=True)
