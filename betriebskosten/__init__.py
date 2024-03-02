@@ -12,6 +12,7 @@ from betriebskosten.document_generator import DocumentGenerator
 from betriebskosten.floor_area_strategy import FloorAreaStrategy
 from betriebskosten.invoice import Invoice
 from betriebskosten.invoice_collection import InvoiceCollection
+from betriebskosten.labor_cost_item import LaborCostItem
 from betriebskosten.resident_number_strategy import ResidentNumberStrategy
 from betriebskosten.tenant import Tenant
 from betriebskosten.time_period import TimePeriod
