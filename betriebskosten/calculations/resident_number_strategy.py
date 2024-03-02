@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from decimal import Decimal
 
-from .models import Building, Tenant, TimePeriod
+from betriebskosten.models import Building, Tenant, TimePeriod
 
 
 @dataclass(frozen=True, slots=True)

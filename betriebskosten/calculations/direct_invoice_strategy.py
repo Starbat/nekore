@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 from typing import Any
 
-from .models import Tenant
+from betriebskosten.models import Tenant
 
 
 @dataclass(frozen=True, slots=True)

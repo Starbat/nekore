@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 from typing import Final
 
-from .models import (
+from betriebskosten.models import (
     Accounting,
     AllocationItem,
     Building,
