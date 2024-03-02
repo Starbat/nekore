@@ -41,7 +41,7 @@ class AccountingProcessor:
             recipient=tenant.contact,
             number_of_people=tenant.number_of_people,
             floor_space=apartment.floor_space,
-            apartment_name=apartment.name if apartment.name else "",
+            apartment_name=apartment.name or "",
             accounting_period=self.period,
             usage_period=tenant.period,
             prepaid=tenant.prepaid,
