@@ -33,31 +33,25 @@ class DocumentGenerator:
             file = f"{datestr}_Abrechnung_{n+1}_{accounting.recipient.name}.pdf"
             doc.output(f"{directory}/{file}")
 
-    def format_address(self, issuer: Contact) -> str:
+    def format_address(self, issuer: Contact, separator: str) -> str:
         sections: Final = (
             issuer.name,
             f"{issuer.street} {issuer.house_number}",
             f"{issuer.zip_code} {issuer.city}",
         )
-        return " | ".join(sections)
+        return separator.join(sections)
 
     def create_document(self, accounting: Accounting) -> PDF:
         pdf = PDF()
         pdf.add_page()
         pdf.set_margin(10)
         # Accounting issuer
-        pdf.cell(w=None, h=20, text=self.format_address(accounting.issuer))
+        pdf.cell(w=None, h=20, text=self.format_address(accounting.issuer, " | "))
         # Accounting date
         pdf.cell(0, 20, dt.date.today().strftime("%d.%m.%Y"), align="R")
         pdf.ln()
 
-        pdf.multi_cell(
-            0,
-            6,
-            f"{accounting.recipient.name}\n{accounting.recipient.street} "
-            f"{accounting.recipient.house_number}\n{accounting.recipient.zip_code} "
-            f"{accounting.recipient.city}",
-        )
+        pdf.multi_cell(0, 6, self.format_address(accounting.recipient, "\n"))
         pdf.ln()
 
         self.create_h1(
