@@ -4,7 +4,7 @@ from typing import Final
 
 from fpdf import FPDF
 
-from betriebskosten.models import Accounting
+from betriebskosten.models import Accounting, Contact
 
 from .document_template import PDF
 
@@ -33,20 +33,20 @@ class DocumentGenerator:
             file = f"{datestr}_Abrechnung_{n+1}_{accounting.recipient.name}.pdf"
             doc.output(f"{directory}/{file}")
 
+    def format_address(self, issuer: Contact) -> str:
+        sections: Final = (
+            issuer.name,
+            f"{issuer.street} {issuer.house_number}",
+            f"{issuer.zip_code} {issuer.city}",
+        )
+        return " | ".join(sections)
+
     def create_document(self, accounting: Accounting) -> PDF:
         pdf = PDF()
         pdf.add_page()
         pdf.set_margin(10)
         # Accounting issuer
-        pdf.cell(
-            w=None,
-            h=20,
-            txt=f"{accounting.issuer.name} | "
-            f"{accounting.issuer.street} "
-            f"{accounting.issuer.house_number} | "
-            f"{accounting.issuer.zip_code} "
-            f"{accounting.issuer.city}",
-        )
+        pdf.cell(w=None, h=20, text=self.format_address(accounting.issuer))
         # Accounting date
         pdf.cell(0, 20, dt.date.today().strftime("%d.%m.%Y"), align="R")
         pdf.ln()
