@@ -46,12 +46,15 @@ class InvoiceCollection:
             accounting_period, building, tenant
         )
 
+    @property
+    def privileged_invoices(self) -> Iterator[Invoice]:
+        return filter(lambda i: i.privileged_amount > 0, self.invoices)
+
     def get_privileged_invoices_by_issuer(self) -> dict[str, list[Invoice]]:
         issuer_invoices: Final[dict[str, list[Invoice]]] = dict()
-        for invoice in self.invoices:
-            if invoice.privileged_amount > 0:
-                if invoice.issuer_name in issuer_invoices:
-                    issuer_invoices[invoice.issuer_name].append(invoice)
-                else:
-                    issuer_invoices[invoice.issuer_name] = [invoice]
+        for invoice in self.privileged_invoices:
+            if invoice.issuer_name in issuer_invoices:
+                issuer_invoices[invoice.issuer_name].append(invoice)
+            else:
+                issuer_invoices[invoice.issuer_name] = [invoice]
         return issuer_invoices
