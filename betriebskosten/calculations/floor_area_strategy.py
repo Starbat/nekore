@@ -11,18 +11,11 @@ class FloorAreaStrategy:
     def get_name(self) -> str:
         return self.name
 
-    def total_shares(
-        self,
-        accounting_period: TimePeriod,
-        building: Building,
-    ) -> Decimal:
+    def total_shares(self, _: TimePeriod, building: Building) -> Decimal:
         return Decimal(sum(a.floor_space for a in building.apartments))
 
     def tenant_shares(
-        self,
-        accounting_period: TimePeriod,
-        building: Building,
-        tenant: Tenant,
+        self, accounting_period: TimePeriod, building: Building, tenant: Tenant
     ) -> Decimal:
         apartment = self._get_tenant_apartment(building, tenant)
         use_days = Decimal(tenant.period.intersection(accounting_period).days)

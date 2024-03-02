@@ -12,9 +12,7 @@ class ResidentNumberStrategy:
         return self.name
 
     def total_shares(
-        self,
-        accounting_period: TimePeriod,
-        building: Building,
+        self, accounting_period: TimePeriod, building: Building
     ) -> Decimal:
         total_person_days: Decimal = Decimal(0)
         for tenant in building.get_tenants():
@@ -22,10 +20,7 @@ class ResidentNumberStrategy:
         return total_person_days / accounting_period.duration.days
 
     def tenant_shares(
-        self,
-        accounting_period: TimePeriod,
-        building: Building,
-        tenant: Tenant,
+        self, accounting_period: TimePeriod, _: Building, tenant: Tenant
     ) -> Decimal:
         person_days = self._person_days(tenant, accounting_period)
         return person_days / accounting_period.duration.days

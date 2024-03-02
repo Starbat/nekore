@@ -14,14 +14,9 @@ class AllocationStrategy(Protocol):
     def get_name(self) -> str: ...
 
     def total_shares(
-        self,
-        accounting_period: TimePeriod,
-        building: Building,
+        self, accounting_period: TimePeriod, building: Building
     ) -> Decimal: ...
 
     def tenant_shares(
-        self,
-        accounting_period: TimePeriod,
-        building: Building,
-        tenant: Tenant,
+        self, accounting_period: TimePeriod, building: Building, tenant: Tenant
     ) -> Decimal: ...

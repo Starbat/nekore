@@ -13,7 +13,7 @@ class DirectInvoiceStrategy:
     def get_name(self) -> str:
         return self.name
 
-    def total_shares(self, *args: Any) -> Decimal:
+    def total_shares(self, *_: Any) -> Decimal:
         return Decimal("1")
 
     def tenant_shares(self, _: Any, __: Any, tenant: Tenant) -> Decimal:
