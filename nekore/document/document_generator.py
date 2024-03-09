@@ -4,7 +4,7 @@ from typing import Final
 
 from fpdf import FPDF
 
-from betriebskosten.models import Accounting, Contact
+from nekore.models import Accounting, Contact
 
 from .document_template import PDF
 

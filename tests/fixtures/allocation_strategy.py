@@ -2,10 +2,7 @@ from decimal import Decimal
 
 import pytest
 
-from betriebskosten.models.allocation_strategy import AllocationStrategy
-from betriebskosten.models.building import Building
-from betriebskosten.models.tenant import Tenant
-from betriebskosten.models.time_period import TimePeriod
+from nekore.models import AllocationStrategy, Building, Tenant, TimePeriod
 
 
 class DummyAllocationStrategy:

@@ -1,7 +1,7 @@
 import datetime as dt
 from decimal import Decimal
 
-from betriebskosten import Apartment, Contact, Tenant, TimePeriod
+from nekore.models import Apartment, Contact, Tenant, TimePeriod
 
 
 def test_validate_tenant_periods() -> None:

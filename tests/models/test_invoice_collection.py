@@ -1,8 +1,6 @@
 from typing import Final
 
-from betriebskosten.models.allocation_strategy import AllocationStrategy
-from betriebskosten.models.invoice import Invoice
-from betriebskosten.models.invoice_collection import InvoiceCollection
+from nekore.models import AllocationStrategy, Invoice, InvoiceCollection
 
 
 def test_privileged_invoices(

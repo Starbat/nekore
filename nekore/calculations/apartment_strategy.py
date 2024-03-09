@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 from typing import Any
 
-from betriebskosten.models import Building, Tenant, TimePeriod
+from nekore.models import Building, Tenant, TimePeriod
 
 
 @dataclass(frozen=True, slots=True)

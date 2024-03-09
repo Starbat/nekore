@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 
-from betriebskosten import TimePeriod
+from nekore import TimePeriod
 
 
 def test_contains_date_true() -> None:

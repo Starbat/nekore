@@ -3,7 +3,7 @@ from decimal import Decimal
 
 import pytest
 
-from betriebskosten.models.invoice import Invoice
+from nekore.models import Invoice
 
 
 @pytest.fixture

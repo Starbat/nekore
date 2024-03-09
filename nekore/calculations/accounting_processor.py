@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 from typing import Final
 
-from betriebskosten.models import (
+from nekore.models import (
     Accounting,
     AllocationItem,
     Building,
