@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Iterator
+from typing import Iterator, Collection
 
 from .apartment import Apartment
 from .tenant import Tenant
@@ -9,7 +9,7 @@ from .time_period import TimePeriod
 @dataclass(frozen=True, slots=True)
 class Building:
     name: str | None = None
-    apartments: list[Apartment] = field(default_factory=list)
+    apartments: Collection[Apartment] = field(default_factory=tuple)
 
     @property
     def tenants(self) -> Iterator[Tenant]:

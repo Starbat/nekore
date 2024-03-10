@@ -3,12 +3,14 @@ from decimal import Decimal
 
 from .tenant import Tenant, overlapping_in_time
 
+from typing import Collection
+
 
 @dataclass(frozen=True, eq=True, slots=True)
 class Apartment:
     floor_space: Decimal
     name: str | None = None
-    tenants: list[Tenant] = field(default_factory=list, compare=False)
+    tenants: Collection[Tenant] = field(default_factory=tuple, compare=False)
 
     def __post_init__(self) -> None:
         self._validate_tenant_periods()

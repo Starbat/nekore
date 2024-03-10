@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from decimal import Decimal
-from typing import Final, Iterator
+from typing import Final, Iterator, Collection
 
 from .allocation_strategy import AllocationStrategy
 from .building import Building
@@ -12,7 +12,7 @@ from .time_period import TimePeriod
 @dataclass(frozen=True, slots=True)
 class InvoiceCollection:
     name: str
-    invoices: list[Invoice]
+    invoices: Collection[Invoice]
     allocation_strategy: AllocationStrategy
 
     @property

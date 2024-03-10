@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from decimal import Decimal
-from typing import Final
+from typing import Final, Collection
 
 from nekore.models import (
     Accounting,
@@ -19,7 +19,7 @@ class AccountingProcessor:
     issuer: Contact
     period: TimePeriod
     building: Building
-    invoice_collections: list[InvoiceCollection]
+    invoice_collections: Collection[InvoiceCollection]
 
     def create_accountings(self) -> list[Accounting]:
         tenants_in_period: Final = self.building.tenants_in(self.period)
