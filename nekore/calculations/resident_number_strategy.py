@@ -15,7 +15,7 @@ class ResidentNumberStrategy:
         self, accounting_period: TimePeriod, building: Building
     ) -> Decimal:
         total_person_days: Decimal = Decimal(0)
-        for tenant in building.get_tenants():
+        for tenant in building.tenants_in(accounting_period):
             total_person_days += self._person_days(tenant, accounting_period)
         return total_person_days / accounting_period.duration.days
 

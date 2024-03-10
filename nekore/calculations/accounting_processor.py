@@ -22,7 +22,7 @@ class AccountingProcessor:
     invoice_collections: list[InvoiceCollection]
 
     def create_accountings(self) -> list[Accounting]:
-        tenants_in_period: Final = self.building.get_tenants(self.period)
+        tenants_in_period: Final = self.building.tenants_in(self.period)
         return [self._create_accounting(tenant) for tenant in tenants_in_period]
 
     def _create_accounting(self, tenant: Tenant) -> Accounting:
