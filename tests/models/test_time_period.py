@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+from typing import Final
 
 import pytest
 
@@ -240,3 +241,16 @@ def test_overlaps_false() -> None:
         for start, end in (("2020-01-05", "2020-01-07"), ("2020-01-09", "2020-01-11"))
     )
     assert not t1.overlaps(t2)
+
+
+def test_cover() -> None:
+    t1: Final = date(year=2020, month=1, day=1)
+    t2, t3, t4 = (t1 + timedelta(days=days * 100) for days in range(1, 4))
+
+    period_1: Final = TimePeriod(start=t1, end=t2)
+    period_2: Final = TimePeriod(start=t3, end=t4)
+
+    result: Final = TimePeriod.cover(period_1, period_2)
+
+    assert result.start == t1
+    assert result.end == t4

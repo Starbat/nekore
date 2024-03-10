@@ -1,6 +1,6 @@
 import datetime as dt
 from dataclasses import dataclass
-from typing import Self
+from typing import Final, Self
 
 
 @dataclass(frozen=True, eq=True, slots=True)
@@ -29,17 +29,22 @@ class TimePeriod:
     def only_contains_end(self, other: Self) -> bool:
         return other.end in self and other.start not in self
 
+    @classmethod
+    def cover(cls, *time_periods: Self) -> Self:
+        """Create the smallest time period that includes all given time periods."""
+        total_start: Final = min(t.start for t in time_periods)
+        total_end: Final = max(t.end for t in time_periods)
+        return cls(start=total_start, end=total_end)
+
     def intersection(self, other: Self) -> dt.timedelta:
         """
         Calculate the amount of time included in both periods.
         The duration includes start and end dates.
         """
-        total_start: Final = min(self.start, other.start)
-        total_end: Final = max(self.end, other.end)
-        total_period: Final = total_end - total_start + dt.timedelta(days=1)
+        total_period: Final = self.cover(self, other)
         start_difference: Final = abs(self.start - other.start)
         end_difference: Final = abs(self.end - other.end)
-        overlap: Final = total_period - start_difference - end_difference
+        overlap: Final = total_period.duration - start_difference - end_difference
         return max(overlap, dt.timedelta(0))
 
     def overlaps(self, other: Self) -> bool:
