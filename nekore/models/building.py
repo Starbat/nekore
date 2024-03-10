@@ -11,6 +11,11 @@ class Building:
     name: str | None = None
     apartments: list[Apartment] = field(default_factory=list)
 
+    @property
+    def tenants(self) -> Iterator[Tenant]:
+        """All tenants from all apartments."""
+        return (t for a in self.apartments for t in a.tenants)
+
     def get_tenants(self, period: TimePeriod | None = None) -> Iterator[Tenant]:
         """
         Get all tenants of all apartments.
@@ -19,8 +24,7 @@ class Building:
         """
         return (
             t
-            for a in self.apartments
-            for t in a.tenants
+            for t in self.tenants
             if period is None or period.intersection(t.period).days > 0
         )
 
