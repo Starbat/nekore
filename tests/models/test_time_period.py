@@ -57,14 +57,14 @@ def test_only_contains_start() -> None:
     assert tp1.only_contains_start(tp2)
 
 
-def test_is_overlapping_upper_range() -> None:
+def test_only_contains_end() -> None:
     tp1 = TimePeriod(
         start=date.fromisoformat("2020-02-01"), end=date.fromisoformat("2020-04-01")
     )
     tp2 = TimePeriod(
         start=date.fromisoformat("2020-01-01"), end=date.fromisoformat("2020-03-01")
     )
-    assert tp1.is_overlapping_upper_range(tp2)
+    assert tp1.only_contains_end(tp2)
 
 
 def test_intersection_handles_non_overlapping() -> None:

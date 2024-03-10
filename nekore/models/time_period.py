@@ -26,7 +26,7 @@ class TimePeriod:
     def only_contains_start(self, other: Self) -> bool:
         return other.start in self and other.end not in self
 
-    def is_overlapping_upper_range(self, other: Self) -> bool:
+    def only_contains_end(self, other: Self) -> bool:
         return other.end in self and other.start not in self
 
     def intersection(self, other: Self) -> dt.timedelta:
@@ -38,7 +38,7 @@ class TimePeriod:
             return self.duration
         if self.only_contains_start(other):
             return self.end - other.start + dt.timedelta(days=1)
-        if self.is_overlapping_upper_range(other):
+        if self.only_contains_end(other):
             return other.end - self.start + dt.timedelta(days=1)
         if other in self:
             return other.duration
