@@ -14,16 +14,15 @@ class InvoiceCollection:
     name: str
     invoices: list[Invoice]
     allocation_strategy: AllocationStrategy
-    gross_total: Decimal = field(init=False)
     net_total: Decimal = field(init=False)
 
     def __post_init__(self) -> None:
-        object.__setattr__(self, "gross_total", self._gross_total())
         object.__setattr__(self, "net_total", self._net_total())
 
-    def _gross_total(self) -> Decimal:
-        """Calculates the gross total of a sequence of invoices."""
-        return Decimal(sum([i.gross_amount for i in self.invoices]))
+    @property
+    def gross_total(self) -> Decimal:
+        """The sum of the gross amounts of all included invoices"""
+        return Decimal(sum(i.gross_amount for i in self.invoices))
 
     def _net_total(self) -> Decimal:
         """Calculates the net total of a sequence of invoices."""
