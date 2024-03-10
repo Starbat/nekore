@@ -23,7 +23,7 @@ class TimePeriod:
             return self.start <= other <= self.end
         return self.start <= other.start <= other.end <= self.end
 
-    def is_overlapping_lower_range(self, other: Self) -> bool:
+    def only_contains_start(self, other: Self) -> bool:
         return other.start in self and other.end not in self
 
     def is_overlapping_upper_range(self, other: Self) -> bool:
@@ -36,7 +36,7 @@ class TimePeriod:
         """
         if self == other:
             return self.duration
-        if self.is_overlapping_lower_range(other):
+        if self.only_contains_start(other):
             return self.end - other.start + dt.timedelta(days=1)
         if self.is_overlapping_upper_range(other):
             return other.end - self.start + dt.timedelta(days=1)
