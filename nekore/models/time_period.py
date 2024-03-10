@@ -34,17 +34,13 @@ class TimePeriod:
         Calculate the amount of time included in both periods.
         The duration includes start and end dates.
         """
-        if self == other:
-            return self.duration
-        if self.only_contains_start(other):
-            return self.end - other.start + dt.timedelta(days=1)
-        if self.only_contains_end(other):
-            return other.end - self.start + dt.timedelta(days=1)
-        if other in self:
-            return other.duration
-        if self in other:
-            return self.duration
-        return dt.timedelta(0)
+        total_start: Final = min(self.start, other.start)
+        total_end: Final = max(self.end, other.end)
+        total_period: Final = total_end - total_start + dt.timedelta(days=1)
+        start_difference: Final = abs(self.start - other.start)
+        end_difference: Final = abs(self.end - other.end)
+        overlap: Final = total_period - start_difference - end_difference
+        return max(overlap, dt.timedelta(0))
 
     def overlaps(self, other: Self) -> bool:
         return bool(self.intersection(other))
