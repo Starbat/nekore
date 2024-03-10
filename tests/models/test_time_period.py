@@ -210,3 +210,19 @@ def test_intersection_where_other_encloses_self() -> None:
         start=date.fromisoformat("2020-01-01"), end=date.fromisoformat("2020-01-10")
     )
     assert tp1.intersection(tp2) == timedelta(days=3)
+
+
+def test_overlaps_true() -> None:
+    t1, t2 = (
+        TimePeriod(start=date.fromisoformat(start), end=date.fromisoformat(end))
+        for start, end in (("2020-01-05", "2020-01-07"), ("2020-01-06", "2020-01-08"))
+    )
+    assert t1.overlaps(t2)
+
+
+def test_overlaps_false() -> None:
+    t1, t2 = (
+        TimePeriod(start=date.fromisoformat(start), end=date.fromisoformat(end))
+        for start, end in (("2020-01-05", "2020-01-07"), ("2020-01-09", "2020-01-11"))
+    )
+    assert not t1.overlaps(t2)

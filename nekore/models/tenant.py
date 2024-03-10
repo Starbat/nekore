@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 from decimal import Decimal
+from itertools import combinations
+from typing import Final, Iterable, Iterator
 
 from .contact import Contact
 from .time_period import TimePeriod
@@ -11,3 +13,8 @@ class Tenant:
     number_of_people: int
     period: TimePeriod
     prepaid: Decimal = Decimal(0)
+
+
+def overlapping_in_time(tenants: Iterable[Tenant]) -> Iterator[tuple[Tenant, Tenant]]:
+    tenant_pairs: Final = combinations(tenants, 2)
+    return filter(lambda t: t[0].period.overlaps(t[1].period), tenant_pairs)

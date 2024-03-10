@@ -45,3 +45,6 @@ class TimePeriod:
         if self in other:
             return self.duration
         return dt.timedelta(0)
+
+    def overlaps(self, other: Self) -> bool:
+        return bool(self.intersection(other))

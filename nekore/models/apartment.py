@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from decimal import Decimal
 
-from .tenant import Tenant
+from .tenant import Tenant, overlapping_in_time
 
 
 @dataclass(frozen=True, eq=True, slots=True)
@@ -14,7 +14,6 @@ class Apartment:
         self._validate_tenant_periods()
 
     def _validate_tenant_periods(self) -> None:
-        for t1 in self.tenants:
-            for t2 in self.tenants:
-                if t1 is not t2 and t1.period.intersection(t2.period):
-                    raise ValueError(f"{t1} and {t2} have overlapping periods.")
+        first = next(overlapping_in_time(self.tenants), None)
+        if first:
+            raise ValueError(f"{first[0]} and {first[1]} have overlapping periods.")
