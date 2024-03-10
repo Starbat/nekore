@@ -21,3 +21,12 @@ def test_tenants_in(tenant_aurore_jones: Tenant, tenant_kim_jackson: Tenant) -> 
     )
     result: Final = building.tenants_in(tenant_aurore_jones.period)
     assert list(result) == [tenant_aurore_jones]
+
+
+def test_get_apartment(tenant_aurore_jones: Tenant, tenant_kim_jackson: Tenant) -> None:
+    aurores_apartment, kims_apartment = (
+        Apartment(tenants=[t], floor_space=Decimal(100))
+        for t in (tenant_aurore_jones, tenant_kim_jackson)
+    )
+    building: Final = Building(apartments=[aurores_apartment, kims_apartment])
+    assert building.get_apartment(tenant_aurore_jones) == aurores_apartment
