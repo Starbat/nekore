@@ -50,26 +50,6 @@ def test_contains_no_date_of_other_time_period() -> None:
     assert tp2 not in tp1
 
 
-def test_only_contains_start() -> None:
-    tp1 = TimePeriod(
-        start=date.fromisoformat("2020-01-01"), end=date.fromisoformat("2020-03-01")
-    )
-    tp2 = TimePeriod(
-        start=date.fromisoformat("2020-02-01"), end=date.fromisoformat("2020-04-01")
-    )
-    assert tp1.only_contains_start(tp2)
-
-
-def test_only_contains_end() -> None:
-    tp1 = TimePeriod(
-        start=date.fromisoformat("2020-02-01"), end=date.fromisoformat("2020-04-01")
-    )
-    tp2 = TimePeriod(
-        start=date.fromisoformat("2020-01-01"), end=date.fromisoformat("2020-03-01")
-    )
-    assert tp1.only_contains_end(tp2)
-
-
 def test_intersection_handles_non_overlapping() -> None:
     tp1 = TimePeriod(
         start=date.fromisoformat("2020-03-01"), end=date.fromisoformat("2020-04-01")

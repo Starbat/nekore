@@ -23,12 +23,6 @@ class TimePeriod:
             return self.start <= other <= self.end
         return self.start <= other.start <= other.end <= self.end
 
-    def only_contains_start(self, other: Self) -> bool:
-        return other.start in self and other.end not in self
-
-    def only_contains_end(self, other: Self) -> bool:
-        return other.end in self and other.start not in self
-
     @classmethod
     def cover(cls, *time_periods: Self) -> Self:
         """Create the smallest time period that includes all given time periods."""
