@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from decimal import Decimal
 from typing import Final, Iterator
 
@@ -14,19 +14,16 @@ class InvoiceCollection:
     name: str
     invoices: list[Invoice]
     allocation_strategy: AllocationStrategy
-    net_total: Decimal = field(init=False)
-
-    def __post_init__(self) -> None:
-        object.__setattr__(self, "net_total", self._net_total())
 
     @property
     def gross_total(self) -> Decimal:
         """The sum of the gross amounts of all included invoices"""
         return Decimal(sum(i.gross_amount for i in self.invoices))
 
-    def _net_total(self) -> Decimal:
+    @property
+    def net_total(self) -> Decimal:
         """Calculates the net total of a sequence of invoices."""
-        return Decimal(sum([i.net_amount for i in self.invoices]))
+        return Decimal(sum(i.net_amount for i in self.invoices))
 
     def total_shares(
         self,
