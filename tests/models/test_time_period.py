@@ -1,5 +1,7 @@
 from datetime import date, timedelta
 
+import pytest
+
 from nekore import TimePeriod
 
 
@@ -115,11 +117,23 @@ def test_intersection_handles_fully_enclosing() -> None:
     assert tp2.intersection(tp1) == intersection
 
 
-def test_duration() -> None:
-    tp1 = TimePeriod(
-        start=date.fromisoformat("2020-01-01"), end=date.fromisoformat("2020-01-03")
-    )
-    assert tp1.duration == timedelta(days=3)
+@pytest.mark.parametrize(
+    ("start", "end", "duration"),
+    (
+        (
+            date(year=2020, month=1, day=1),
+            date(year=2020, month=1, day=1),
+            timedelta(days=1),
+        ),
+        (
+            date(year=2020, month=1, day=1),
+            date(year=2020, month=1, day=3),
+            timedelta(days=3),
+        ),
+    ),
+)
+def test_duration(start: date, end: date, duration: timedelta) -> None:
+    assert TimePeriod(start=start, end=end).duration == duration
 
 
 def test_equals() -> None:

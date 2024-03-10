@@ -1,5 +1,5 @@
 import datetime as dt
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Self
 
 
@@ -9,14 +9,14 @@ class TimePeriod:
 
     start: dt.date
     end: dt.date
-    duration: dt.timedelta = field(init=False)
 
     def __post_init__(self) -> None:
         if self.start > self.end:
             raise ValueError("Start cannot be greater than end.")
-        object.__setattr__(
-            self, "duration", self.end - self.start + dt.timedelta(days=1)
-        )
+
+    @property
+    def duration(self) -> dt.timedelta:
+        return self.end - self.start + dt.timedelta(days=1)
 
     def __contains__(self, other: dt.date | Self) -> bool:
         if isinstance(other, dt.date):
