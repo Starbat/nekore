@@ -97,13 +97,13 @@ class DocumentGenerator:
 
         pdf.set_fill_color(**Color.GRAY)
         pdf.set_text_color(
-            **Color.DARKGREEN if accounting.has_refund() else Color.DARKRED
+            **Color.DARKGREEN if accounting.has_refund else Color.DARKRED
         )
         pdf.set_font("helvetica", "B", FontSize.TEXT)
         pdf.cell(
             third_width,
             8,
-            "Ihre Rückzahlung" if accounting.has_refund() else "Ihre Nachzahlung",
+            "Ihre Rückzahlung" if accounting.has_refund else "Ihre Nachzahlung",
             fill=True,
         )
         pdf.cell(
@@ -124,7 +124,7 @@ class DocumentGenerator:
 
         pdf.set_font("helvetica", "", FontSize.TEXT)
         pdf.set_text_color(**Color.BLACK)
-        if accounting.has_refund():
+        if accounting.has_refund:
             pdf.cell(
                 0,
                 15,
@@ -270,12 +270,12 @@ class DocumentGenerator:
         )
         pdf.ln()
         pdf.set_text_color(
-            **Color.DARKGREEN if accounting.has_refund() else Color.DARKRED
+            **Color.DARKGREEN if accounting.has_refund else Color.DARKRED
         )
         pdf.cell(
             0,
             8,
-            f"{'Ihre Rückzahlung' if accounting.has_refund() else 'Ihre Nachzahlung'}: "
+            f"{'Ihre Rückzahlung' if accounting.has_refund else 'Ihre Nachzahlung'}: "
             f"{abs(accounting.refund):.2f} EUR".replace(".", ","),
             align="R",
         )

@@ -36,5 +36,6 @@ class Accounting:
     def _labor_costs_total(self) -> Decimal:
         return Decimal(sum(lc.share_amount for lc in self.labor_cost_items))
 
+    @property
     def has_refund(self) -> bool:
         return self.refund >= 0
