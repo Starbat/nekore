@@ -23,7 +23,7 @@ class Building:
         """
         return (t for t in self.tenants if period.overlaps(t.period))
 
-    def get_apartment(self, tenant: Tenant) -> Apartment:
+    def apartment_of(self, tenant: Tenant) -> Apartment:
         apartments = [a for a in self.apartments if tenant in a.tenants]
         if len(apartments) != 1:
             raise NotImplementedError

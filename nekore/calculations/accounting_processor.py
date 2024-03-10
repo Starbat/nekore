@@ -33,7 +33,7 @@ class AccountingProcessor:
                 for item in self._create_labor_cost_items(collection, tenant)
                 if item.share_amount > 0
             ]
-        apartment: Final = self.building.get_apartment(tenant)
+        apartment: Final = self.building.apartment_of(tenant)
         return Accounting(
             issuer=self.issuer,
             recipient=tenant.contact,
