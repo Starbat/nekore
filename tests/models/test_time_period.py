@@ -223,14 +223,30 @@ def test_overlaps_false() -> None:
     assert not t1.overlaps(t2)
 
 
-def test_cover() -> None:
-    t1: Final = date(year=2020, month=1, day=1)
-    t2, t3, t4 = (t1 + timedelta(days=days * 100) for days in range(1, 4))
+def test_union_with_single_other() -> None:
+    date_1: Final = date(year=2020, month=1, day=1)
+    later_dates: Final = tuple(date_1 + timedelta(days=f * 100) for f in range(1, 4))
+    dates = (date_1,) + later_dates
 
-    period_1: Final = TimePeriod(start=t1, end=t2)
-    period_2: Final = TimePeriod(start=t3, end=t4)
+    period_1: Final = TimePeriod(start=dates[0], end=dates[1])
+    period_2: Final = TimePeriod(start=dates[2], end=dates[3])
 
-    result: Final = TimePeriod.cover(period_1, period_2)
+    result: Final = period_1.union(period_2)
 
-    assert result.start == t1
-    assert result.end == t4
+    assert result.start == dates[0]
+    assert result.end == dates[-1]
+
+
+def test_union_with_multiple_others() -> None:
+    date_1: Final = date(year=2020, month=1, day=1)
+    later_dates: Final = tuple(date_1 + timedelta(days=f * 100) for f in range(1, 6))
+    dates = (date_1,) + later_dates
+
+    period_1: Final = TimePeriod(start=dates[0], end=dates[1])
+    period_2: Final = TimePeriod(start=dates[2], end=dates[3])
+    period_3: Final = TimePeriod(start=dates[4], end=dates[5])
+
+    result: Final = period_1.union(period_2, period_3)
+
+    assert result.start == dates[0]
+    assert result.end == dates[5]

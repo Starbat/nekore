@@ -23,19 +23,19 @@ class TimePeriod:
             return self.start <= other <= self.end
         return self.start <= other.start <= other.end <= self.end
 
-    @classmethod
-    def cover(cls, *time_periods: Self) -> Self:
+    def union(self, *others: Self) -> Self:
         """Create the smallest time period that includes all given time periods."""
-        total_start: Final = min(t.start for t in time_periods)
-        total_end: Final = max(t.end for t in time_periods)
-        return cls(start=total_start, end=total_end)
+        all_periods: Final = others + (self,)
+        total_start: Final = min(t.start for t in all_periods)
+        total_end: Final = max(t.end for t in all_periods)
+        return self.__class__(start=total_start, end=total_end)
 
     def intersection(self, other: Self) -> dt.timedelta:
         """
         Calculate the amount of time included in both periods.
         The duration includes start and end dates.
         """
-        total_period: Final = self.cover(self, other)
+        total_period: Final = self.union(other)
         start_difference: Final = abs(self.start - other.start)
         end_difference: Final = abs(self.end - other.end)
         overlap: Final = total_period.duration - start_difference - end_difference
