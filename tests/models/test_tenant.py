@@ -1,4 +1,5 @@
 import datetime as dt
+from datetime import timedelta
 from typing import Final
 
 from nekore.models import Contact, TimePeriod
@@ -54,3 +55,17 @@ def test_overlapping_in_time_with_no_overlapping() -> None:
         for n, p in enumerate(periods)
     )
     assert list(overlapping_in_time(tenants)) == []
+
+
+class TestTenant:
+    def test_time_of_use_in_is_zero(
+        self, tenant_kim_jackson: Tenant, year_2020: TimePeriod
+    ) -> None:
+        assert tenant_kim_jackson.time_of_use_in(year_2020) == timedelta(0)
+
+    def test_time_of_use_in_is_one_day(
+        self, tenant_aurore_jones: Tenant, new_years_eve_2020: TimePeriod
+    ) -> None:
+        assert tenant_aurore_jones.time_of_use_in(new_years_eve_2020) == timedelta(
+            days=1
+        )

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from decimal import Decimal
+from typing import Final
 
 from nekore.models import Building, Tenant, TimePeriod
 
@@ -26,5 +27,5 @@ class ResidentNumberStrategy:
         return person_days / accounting_period.duration.days
 
     def _person_days(self, tenant: Tenant, accounting_period: TimePeriod) -> Decimal:
-        use_days = tenant.period.intersection(accounting_period).days
-        return Decimal(tenant.number_of_people * use_days)
+        days_of_use: Final = Decimal(tenant.time_of_use_in(accounting_period).days)
+        return Decimal(tenant.number_of_people * days_of_use)

@@ -30,16 +30,17 @@ class TimePeriod:
         total_end: Final = max(t.end for t in all_periods)
         return self.__class__(start=total_start, end=total_end)
 
-    def intersection(self, other: Self) -> dt.timedelta:
+    def intersection(self, *others: Self) -> Self | None:
         """
-        Calculate the amount of time included in both periods.
+        Calculate the time period included in all periods.
         The duration includes start and end dates.
         """
-        total_period: Final = self.union(other)
-        start_difference: Final = abs(self.start - other.start)
-        end_difference: Final = abs(self.end - other.end)
-        overlap: Final = total_period.duration - start_difference - end_difference
-        return max(overlap, dt.timedelta(0))
+        all_periods: Final = others + (self,)
+        max_start: Final = max(t.start for t in all_periods)
+        min_end: Final = min(t.end for t in all_periods)
+        if max_start > min_end:
+            return None
+        return self.__class__(start=max_start, end=min_end)
 
     def overlaps(self, other: Self) -> bool:
         return bool(self.intersection(other))

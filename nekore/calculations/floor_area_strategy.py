@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from decimal import Decimal
+from typing import Final
 
 from nekore.models import Apartment, Building, Tenant, TimePeriod
 
@@ -18,8 +19,8 @@ class FloorAreaStrategy:
         self, accounting_period: TimePeriod, building: Building, tenant: Tenant
     ) -> Decimal:
         apartment = self._get_tenant_apartment(building, tenant)
-        use_days = Decimal(tenant.period.intersection(accounting_period).days)
-        time_share = use_days / accounting_period.duration.days
+        days_of_use: Final = Decimal(tenant.time_of_use_in(accounting_period).days)
+        time_share = days_of_use / accounting_period.duration.days
         return apartment.floor_space * time_share
 
     def _get_tenant_apartment(self, building: Building, tenant: Tenant) -> Apartment:

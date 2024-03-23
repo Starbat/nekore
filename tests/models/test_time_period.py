@@ -58,44 +58,58 @@ def test_intersection_handles_non_overlapping() -> None:
         start=date.fromisoformat("2020-06-01"), end=date.fromisoformat("2020-07-01")
     )
 
-    assert tp1.intersection(tp2) == timedelta(0)
-    assert tp2.intersection(tp1) == timedelta(0)
+    assert tp1.intersection(tp2) is None
+    assert tp2.intersection(tp1) is None
 
 
 def test_intersection_handles_identical_periods() -> None:
     start = date.fromisoformat("2020-03-01")
     end = date.fromisoformat("2020-04-01")
-    delta = end - start + timedelta(days=1)
     tp1, tp2 = (TimePeriod(start=start, end=end) for _ in range(2))
 
-    assert tp1.intersection(tp2) == delta
-    assert tp2.intersection(tp1) == delta
+    result_1: Final = tp1.intersection(tp2)
+    assert result_1
+    assert result_1.start == start and result_1.end == end
+
+    result_2: Final = tp2.intersection(tp1)
+    assert result_2
+    assert result_2.start == start and result_2.end == end
 
 
 def test_intersection_handles_partially_overlapping() -> None:
-    tp1 = TimePeriod(
-        start=date.fromisoformat("2020-03-10"), end=date.fromisoformat("2020-03-15")
+    period_1_start: Final = date.fromisoformat("2020-03-10")
+    period_1: Final = TimePeriod(
+        start=period_1_start, end=date.fromisoformat("2020-03-15")
     )
-    tp2 = TimePeriod(
-        start=date.fromisoformat("2020-03-05"), end=date.fromisoformat("2020-03-13")
+    period_2_end: Final = date.fromisoformat("2020-03-13")
+    period_2: Final = TimePeriod(
+        start=date.fromisoformat("2020-03-05"), end=period_2_end
     )
 
-    intersection = timedelta(days=4)
-    assert tp1.intersection(tp2) == intersection
-    assert tp2.intersection(tp1) == intersection
+    result_1: Final = period_1.intersection(period_2)
+    assert result_1
+    assert result_1.start == period_1_start and result_1.end == period_2_end
+
+    result_2: Final = period_2.intersection(period_1)
+    assert result_2
+    assert result_2.start == period_1_start and result_2.end == period_2_end
 
 
 def test_intersection_handles_fully_enclosing() -> None:
-    tp1 = TimePeriod(
+    period_1: Final = TimePeriod(
         start=date.fromisoformat("2020-01-01"), end=date.fromisoformat("2020-01-30")
     )
-    tp2 = TimePeriod(
-        start=date.fromisoformat("2020-01-10"), end=date.fromisoformat("2020-01-15")
-    )
+    period_2_start: Final = date.fromisoformat("2020-01-10")
+    period_2_end: Final = date.fromisoformat("2020-01-15")
+    period_2: Final = TimePeriod(start=period_2_start, end=period_2_end)
 
-    intersection = timedelta(days=6)
-    assert tp1.intersection(tp2) == intersection
-    assert tp2.intersection(tp1) == intersection
+    result_1: Final = period_1.intersection(period_2)
+    assert result_1
+    assert result_1.start == period_2_start and result_1.end == period_2_end
+
+    result_2: Final = period_2.intersection(period_1)
+    assert result_2
+    assert result_2.start == period_2_start and result_2.end == period_2_end
 
 
 @pytest.mark.parametrize(
@@ -137,14 +151,14 @@ def test_equals_false() -> None:
     assert tp1 != tp2
 
 
-def test_intersection_is_zero_if_other_start_is_after_self_end() -> None:
+def test_intersection_is_none_if_other_start_is_after_self_end() -> None:
     tp1 = TimePeriod(
         start=date.fromisoformat("2020-01-01"), end=date.fromisoformat("2020-02-01")
     )
     tp2 = TimePeriod(
         start=date.fromisoformat("2020-03-01"), end=date.fromisoformat("2020-04-01")
     )
-    assert tp1.intersection(tp2) == timedelta(days=0)
+    assert tp1.intersection(tp2) is None
 
 
 def test_intersection_is_zero_if_other_end_is_before_self_start() -> None:
@@ -154,57 +168,55 @@ def test_intersection_is_zero_if_other_end_is_before_self_start() -> None:
     tp2 = TimePeriod(
         start=date.fromisoformat("2020-01-01"), end=date.fromisoformat("2020-02-01")
     )
-    assert tp1.intersection(tp2) == timedelta(days=0)
+    assert tp1.intersection(tp2) is None
 
 
 def test_intersection_where_self_overlapps_lower_range_of_other() -> None:
-    tp1 = TimePeriod(
-        start=date.fromisoformat("2020-01-01"), end=date.fromisoformat("2020-01-10")
-    )
-    tp2 = TimePeriod(
-        start=date.fromisoformat("2020-01-05"), end=date.fromisoformat("2020-01-15")
-    )
-    assert tp1.intersection(tp2) == timedelta(days=6)
+    period_1_end: Final = date.fromisoformat("2020-01-10")
+    period_1 = TimePeriod(start=date.fromisoformat("2020-01-01"), end=period_1_end)
+    period_2_start: Final = date.fromisoformat("2020-01-05")
+    period_2 = TimePeriod(start=period_2_start, end=date.fromisoformat("2020-01-15"))
+
+    result: Final = period_1.intersection(period_2)
+    assert result
+    assert result.start == period_2_start and result.end == period_1_end
 
 
 def test_intersection_where_self_overlapps_upper_range_of_other() -> None:
-    tp1 = TimePeriod(
-        start=date.fromisoformat("2020-01-05"), end=date.fromisoformat("2020-01-15")
-    )
-    tp2 = TimePeriod(
-        start=date.fromisoformat("2020-01-01"), end=date.fromisoformat("2020-01-10")
-    )
-    assert tp1.intersection(tp2) == timedelta(days=6)
+    period_1_start: Final = date.fromisoformat("2020-01-05")
+    period_1 = TimePeriod(start=period_1_start, end=date.fromisoformat("2020-01-15"))
+    period_2_end: Final = date.fromisoformat("2020-01-10")
+    period_2 = TimePeriod(start=date.fromisoformat("2020-01-01"), end=period_2_end)
 
-
-def test_intersection_where_time_periods_are_identical() -> None:
-    tp1 = TimePeriod(
-        start=date.fromisoformat("2020-01-01"), end=date.fromisoformat("2020-01-03")
-    )
-    tp2 = TimePeriod(
-        start=date.fromisoformat("2020-01-01"), end=date.fromisoformat("2020-01-03")
-    )
-    assert tp1.intersection(tp2) == timedelta(days=3)
+    result: Final = period_1.intersection(period_2)
+    assert result
+    assert result.start == period_1_start and result.end == period_2_end
 
 
 def test_intersection_where_self_encloses_other() -> None:
-    tp1 = TimePeriod(
+    period_1 = TimePeriod(
         start=date.fromisoformat("2020-01-01"), end=date.fromisoformat("2020-01-10")
     )
-    tp2 = TimePeriod(
-        start=date.fromisoformat("2020-01-05"), end=date.fromisoformat("2020-01-07")
-    )
-    assert tp1.intersection(tp2) == timedelta(days=3)
+    period_2_start: Final = date.fromisoformat("2020-01-05")
+    period_2_end: Final = date.fromisoformat("2020-01-07")
+    period_2 = TimePeriod(start=period_2_start, end=period_2_end)
+
+    result: Final = period_1.intersection(period_2)
+    assert result
+    assert result.start == period_2_start and result.end == period_2_end
 
 
 def test_intersection_where_other_encloses_self() -> None:
-    tp1 = TimePeriod(
-        start=date.fromisoformat("2020-01-05"), end=date.fromisoformat("2020-01-07")
-    )
-    tp2 = TimePeriod(
+    period_1_start: Final = date.fromisoformat("2020-01-05")
+    period_1_end: Final = date.fromisoformat("2020-01-07")
+    period_1 = TimePeriod(start=period_1_start, end=period_1_end)
+    period_2 = TimePeriod(
         start=date.fromisoformat("2020-01-01"), end=date.fromisoformat("2020-01-10")
     )
-    assert tp1.intersection(tp2) == timedelta(days=3)
+
+    result: Final = period_1.intersection(period_2)
+    assert result
+    assert result.start == period_1_start and result.end == period_1_end
 
 
 def test_overlaps_true() -> None:
