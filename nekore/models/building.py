@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Collection, Iterator
+from typing import Collection, Final, Iterator
 
 from .apartment import Apartment
 from .tenant import Tenant
@@ -24,7 +24,8 @@ class Building:
         return (t for t in self.tenants if period.overlaps(t.period))
 
     def apartment_of(self, tenant: Tenant) -> Apartment:
-        apartments = [a for a in self.apartments if tenant in a.tenants]
-        if len(apartments) != 1:
+        apartments: Final = (a for a in self.apartments if tenant in a.tenants)
+        try:
+            return next(apartments)
+        except StopIteration:
             raise ValueError(f"{tenant} must be resident in an apartment of {self}.")
-        return apartments[0]
