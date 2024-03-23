@@ -42,5 +42,5 @@ def test_apartment_of_wrong_tenant(
     )
     building: Final = Building(apartments=[aurores_apartment])
 
-    with pytest.raises(NotImplementedError):
+    with pytest.raises(ValueError):
         building.apartment_of(tenant_kim_jackson)

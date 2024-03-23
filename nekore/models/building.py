@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Iterator, Collection
+from typing import Collection, Iterator
 
 from .apartment import Apartment
 from .tenant import Tenant
@@ -26,5 +26,5 @@ class Building:
     def apartment_of(self, tenant: Tenant) -> Apartment:
         apartments = [a for a in self.apartments if tenant in a.tenants]
         if len(apartments) != 1:
-            raise NotImplementedError
+            raise ValueError(f"{tenant} must be resident in an apartment of {self}.")
         return apartments[0]
