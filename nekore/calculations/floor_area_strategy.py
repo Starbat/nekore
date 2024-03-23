@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 from typing import Final
 
-from nekore.models import Apartment, Building, Tenant, TimePeriod
+from nekore.models import Building, Tenant, TimePeriod
 
 
 @dataclass(frozen=True, slots=True)
@@ -18,13 +18,7 @@ class FloorAreaStrategy:
     def tenant_shares(
         self, accounting_period: TimePeriod, building: Building, tenant: Tenant
     ) -> Decimal:
-        apartment = self._get_tenant_apartment(building, tenant)
+        apartment = building.apartment_of(tenant)
         days_of_use: Final = Decimal(tenant.time_of_use_in(accounting_period).days)
         time_share = days_of_use / accounting_period.duration.days
         return apartment.floor_space * time_share
-
-    def _get_tenant_apartment(self, building: Building, tenant: Tenant) -> Apartment:
-        for apartment in building.apartments:
-            if tenant in apartment.tenants:
-                return apartment
-        raise ValueError(f"{tenant} must be resident in an apartment of {building}.")
