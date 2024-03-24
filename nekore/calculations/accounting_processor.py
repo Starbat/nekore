@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from decimal import Decimal
-from typing import Final, Collection
+from typing import Collection, Final
 
 from nekore.models import (
     Accounting,
@@ -75,7 +75,7 @@ class AccountingProcessor:
             net_share=ratio * invoice_collection.net_total,
             shares_total=total_shares,
             shares_allocated=tenant_shares,
-            allocation_name=invoice_collection.allocation_strategy.get_name(),
+            allocation_name=invoice_collection.allocation_strategy.name,
             name=invoice_collection.name,
         )
 

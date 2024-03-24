@@ -6,7 +6,8 @@ from nekore.models import AllocationStrategy, Building, Tenant, TimePeriod
 
 
 class DummyAllocationStrategy:
-    def get_name(self) -> str:
+    @property
+    def name(self) -> str:
         return "dummy name"
 
     def total_shares(

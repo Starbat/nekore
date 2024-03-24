@@ -9,9 +9,6 @@ from nekore.models import Building, Tenant, TimePeriod
 class ResidentNumberStrategy:
     name: str = "PNZ"
 
-    def get_name(self) -> str:
-        return self.name
-
     def total_shares(
         self, accounting_period: TimePeriod, building: Building
     ) -> Decimal:

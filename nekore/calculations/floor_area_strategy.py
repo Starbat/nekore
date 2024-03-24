@@ -9,9 +9,6 @@ from nekore.models import Building, Tenant, TimePeriod
 class FloorAreaStrategy:
     name: str = "NHN"
 
-    def get_name(self) -> str:
-        return self.name
-
     def total_shares(self, _: TimePeriod, building: Building) -> Decimal:
         return Decimal(sum(a.floor_space for a in building.apartments))
 

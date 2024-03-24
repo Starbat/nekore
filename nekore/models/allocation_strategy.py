@@ -11,7 +11,8 @@ class AllocationStrategy(Protocol):
     A class which calculates how costs are allocated among tenants.
     """
 
-    def get_name(self) -> str: ...
+    @property
+    def name(self) -> str: ...
 
     def total_shares(
         self, accounting_period: TimePeriod, building: Building
