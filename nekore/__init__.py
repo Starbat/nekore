@@ -3,6 +3,7 @@ from .calculations import (
     ApartmentStrategy,
     DirectInvoiceStrategy,
     FloorAreaStrategy,
+    InvoiceCollectionProcessor,
     ResidentNumberStrategy,
 )
 from .document import DocumentGenerator
