@@ -1,19 +1,14 @@
 from dataclasses import dataclass
 from decimal import Decimal
-from typing import Final, Iterator, Collection
+from typing import Collection, Final, Iterator
 
-from .allocation_strategy import AllocationStrategy
-from .building import Building
 from .invoice import Invoice
-from .tenant import Tenant
-from .time_period import TimePeriod
 
 
 @dataclass(frozen=True, slots=True)
 class InvoiceCollection:
     name: str
     invoices: Collection[Invoice]
-    allocation_strategy: AllocationStrategy
 
     @property
     def gross_total(self) -> Decimal:
@@ -24,23 +19,6 @@ class InvoiceCollection:
     def net_total(self) -> Decimal:
         """Calculates the net total of a sequence of invoices."""
         return Decimal(sum(i.net_amount for i in self.invoices))
-
-    def total_shares(
-        self,
-        accounting_period: TimePeriod,
-        building: Building,
-    ) -> Decimal:
-        return self.allocation_strategy.total_shares(accounting_period, building)
-
-    def tenant_shares(
-        self,
-        accounting_period: TimePeriod,
-        building: Building,
-        tenant: Tenant,
-    ) -> Decimal:
-        return self.allocation_strategy.tenant_shares(
-            accounting_period, building, tenant
-        )
 
     @property
     def privileged_invoices(self) -> Iterator[Invoice]:

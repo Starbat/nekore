@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from decimal import Decimal
+from itertools import chain
 from typing import Collection, Final
 
 from nekore.models import (
@@ -7,11 +7,12 @@ from nekore.models import (
     AllocationItem,
     Building,
     Contact,
-    InvoiceCollection,
     LaborCostItem,
     Tenant,
     TimePeriod,
 )
+
+from .invoice_collection_processor import InvoiceCollectionProcessor
 
 
 @dataclass(frozen=True, slots=True)
@@ -19,20 +20,13 @@ class AccountingProcessor:
     issuer: Contact
     period: TimePeriod
     building: Building
-    invoice_collections: Collection[InvoiceCollection]
+    invoice_collection_processors: Collection[InvoiceCollectionProcessor]
 
     def create_accountings(self) -> list[Accounting]:
         tenants_in_period: Final = self.building.tenants_in(self.period)
-        return [self._create_accounting(tenant) for tenant in tenants_in_period]
+        return [self.create_accounting(tenant) for tenant in tenants_in_period]
 
-    def _create_accounting(self, tenant: Tenant) -> Accounting:
-        labor_cost_items: list[LaborCostItem] = []
-        for collection in self.invoice_collections:
-            labor_cost_items += [
-                item
-                for item in self._create_labor_cost_items(collection, tenant)
-                if item.share_amount > 0
-            ]
+    def create_accounting(self, tenant: Tenant) -> Accounting:
         apartment: Final = self.building.apartment_of(tenant)
         return Accounting(
             issuer=self.issuer,
@@ -43,62 +37,27 @@ class AccountingProcessor:
             accounting_period=self.period,
             usage_period=tenant.period,
             prepaid=tenant.prepaid,
-            allocation_items=self._create_allocation_items(tenant),
-            labor_cost_items=labor_cost_items,
+            allocation_items=self.create_allocation_items(tenant),
+            labor_cost_items=self.create_labor_cost_items(tenant),
         )
 
-    def _create_allocation_items(self, tenant: Tenant) -> list[AllocationItem]:
+    def create_allocation_items(self, tenant: Tenant) -> list[AllocationItem]:
         """
         Create allocation items for a tenant's accounting.
         Allocation items with a gross of zero are omitted.
         """
-        allocation_items: Final = [
-            self._create_allocation_item(collection, tenant)
-            for collection in self.invoice_collections
-        ]
+        allocation_items: Final = (
+            processor.create_allocation_item(self.building, tenant, self.period)
+            for processor in self.invoice_collection_processors
+        )
         return list(filter(lambda i: i.gross_share > 0, allocation_items))
 
-    def _create_allocation_item(
-        self, invoice_collection: InvoiceCollection, tenant: Tenant
-    ) -> AllocationItem:
-        total_shares: Final = invoice_collection.total_shares(
-            self.period, self.building
+    def create_labor_cost_items(self, tenant: Tenant) -> list[LaborCostItem]:
+        invoice_processors: Final = (
+            p.create_labor_cost_items for p in self.invoice_collection_processors
         )
-        tenant_shares: Final = invoice_collection.tenant_shares(
-            self.period, self.building, tenant
+        item_groups: Final = (
+            p(self.building, tenant, self.period) for p in invoice_processors
         )
-        ratio: Final = tenant_shares / total_shares
-        return AllocationItem(
-            gross_total=invoice_collection.gross_total,
-            gross_share=ratio * invoice_collection.gross_total,
-            net_total=invoice_collection.net_total,
-            net_share=ratio * invoice_collection.net_total,
-            shares_total=total_shares,
-            shares_allocated=tenant_shares,
-            allocation_name=invoice_collection.allocation_strategy.name,
-            name=invoice_collection.name,
-        )
-
-    def _create_labor_cost_items(
-        self, invoice_collection: InvoiceCollection, tenant: Tenant
-    ) -> list[LaborCostItem]:
-        total_shares: Final = invoice_collection.total_shares(
-            self.period, self.building
-        )
-        tenant_shares: Final = invoice_collection.tenant_shares(
-            self.period, self.building, tenant
-        )
-        ratio: Final = tenant_shares / total_shares
-
-        issuer_invoices: Final = invoice_collection.privileged_invoices_by_issuer
-        return [
-            LaborCostItem(
-                collection_name=invoice_collection.name,
-                issuer_name=issuer,
-                gross_amount=Decimal(sum(i.gross_amount for i in invoices)),
-                privileged_amount=Decimal(sum(i.privileged_amount for i in invoices)),
-                factor=ratio,
-                share_amount=ratio * sum(i.privileged_amount for i in invoices),
-            )
-            for issuer, invoices in issuer_invoices.items()
-        ]
+        items: Final = chain(*item_groups)
+        return list(filter(lambda i: i.share_amount > 0, items))

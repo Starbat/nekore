@@ -1,17 +1,14 @@
 from typing import Final
 
-from nekore.models import AllocationStrategy, Invoice, InvoiceCollection
+from nekore.models import Invoice, InvoiceCollection
 
 
 def test_privileged_invoices(
-    dummy_allocation_strategy: AllocationStrategy,
     privileged_invoice: Invoice,
     unprivileged_invoice: Invoice,
 ) -> None:
     collection: Final = InvoiceCollection(
-        "test_collection",
-        [privileged_invoice, unprivileged_invoice],
-        dummy_allocation_strategy,
+        "test_collection", [privileged_invoice, unprivileged_invoice]
     )
 
     result: Final = collection.privileged_invoices
@@ -20,14 +17,11 @@ def test_privileged_invoices(
 
 
 def test_privileged_invoices_by_issuer(
-    dummy_allocation_strategy: AllocationStrategy,
     privileged_invoice: Invoice,
     unprivileged_invoice: Invoice,
 ) -> None:
     collection: Final = InvoiceCollection(
-        "test_collection",
-        [privileged_invoice, unprivileged_invoice],
-        dummy_allocation_strategy,
+        "test_collection", [privileged_invoice, unprivileged_invoice]
     )
 
     result: Final = collection.privileged_invoices_by_issuer
@@ -36,14 +30,11 @@ def test_privileged_invoices_by_issuer(
 
 
 def test_gross_total(
-    dummy_allocation_strategy: AllocationStrategy,
     privileged_invoice: Invoice,
     unprivileged_invoice: Invoice,
 ) -> None:
     collection: Final = InvoiceCollection(
-        "test_collection",
-        [privileged_invoice, unprivileged_invoice],
-        dummy_allocation_strategy,
+        "test_collection", [privileged_invoice, unprivileged_invoice]
     )
     assert (
         collection.gross_total
@@ -52,14 +43,11 @@ def test_gross_total(
 
 
 def test_net_total(
-    dummy_allocation_strategy: AllocationStrategy,
     privileged_invoice: Invoice,
     unprivileged_invoice: Invoice,
 ) -> None:
     collection: Final = InvoiceCollection(
-        "test_collection",
-        [privileged_invoice, unprivileged_invoice],
-        dummy_allocation_strategy,
+        "test_collection", [privileged_invoice, unprivileged_invoice]
     )
     assert (
         collection.net_total
