@@ -12,17 +12,17 @@ class ResidentNumberStrategy:
     def total_shares(
         self, accounting_period: TimePeriod, building: Building
     ) -> Decimal:
-        total_person_days: Decimal = Decimal(0)
-        for tenant in building.tenants_in(accounting_period):
-            total_person_days += self._person_days(tenant, accounting_period)
-        return total_person_days / accounting_period.duration.days
+        tenants: Final = building.tenants
+        total_person_days = sum(person_days(t, accounting_period) for t in tenants)
+        return Decimal(total_person_days) / accounting_period.duration.days
 
     def tenant_shares(
         self, accounting_period: TimePeriod, _: Building, tenant: Tenant
     ) -> Decimal:
-        person_days = self._person_days(tenant, accounting_period)
-        return person_days / accounting_period.duration.days
+        _person_days: Final = Decimal(person_days(tenant, accounting_period))
+        return _person_days / accounting_period.duration.days
 
-    def _person_days(self, tenant: Tenant, accounting_period: TimePeriod) -> Decimal:
-        days_of_use: Final = Decimal(tenant.time_of_use_in(accounting_period).days)
-        return Decimal(tenant.number_of_people * days_of_use)
+
+def person_days(tenant: Tenant, accounting_period: TimePeriod) -> int:
+    days_of_use: Final = tenant.time_of_use_in(accounting_period).days
+    return tenant.number_of_people * days_of_use
