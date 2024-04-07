@@ -11,3 +11,8 @@ def aurore_jones() -> Contact:
 @pytest.fixture
 def kim_jackson() -> Contact:
     return Contact("Aurore Jones", "Bloomfield Township", "893", "48302", "Northampton")
+
+
+@pytest.fixture
+def frank_maldonado() -> Contact:
+    return Contact("Frank Maldonado", "Ferguson Street", "472", "72766", "Chicago")
