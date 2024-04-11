@@ -1,4 +1,3 @@
-from decimal import Decimal
 from typing import Final
 
 from nekore.calculations.resident_number_strategy import ResidentNumberStrategy
