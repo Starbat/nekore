@@ -16,9 +16,13 @@ mypy = "^1.8.0"
 flake8 = "^7.0.0"
 pytest = "^8.0.2"
 types-fpdf2 = "^2.7.8.20240217"
+flake8-bugbear = "^24.2.6"
 
 [tool.mypy]
 disallow_untyped_defs = true
+
+[tool.isort]
+profile = "black"
 
 [build-system]
 requires = ["poetry-core"]
