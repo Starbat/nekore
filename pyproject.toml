@@ -5,6 +5,7 @@ description = "Create operating cost statements for apartment buildings."
 authors = ["Starbat <45294825+Starbat@users.noreply.github.com>"]
 license = "MIT"
 readme = "README.md"
+repository = "https://github.com/Starbat/nekore"
 
 [tool.poetry.dependencies]
 python = "^3.12"
