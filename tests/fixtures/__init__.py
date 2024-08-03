@@ -1,6 +1,5 @@
 from typing import Final
 
-
 __all__: Final = [
     "apartment_1_of_building_a",
     "apartment_2_of_building_a",

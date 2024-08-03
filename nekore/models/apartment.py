@@ -1,9 +1,8 @@
 from dataclasses import dataclass, field
 from decimal import Decimal
+from typing import Collection
 
 from .tenant import Tenant, overlapping_in_time
-
-from typing import Collection
 
 
 @dataclass(frozen=True, eq=True, slots=True)

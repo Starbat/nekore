@@ -2,6 +2,7 @@ import datetime as dt
 from dataclasses import dataclass, field
 from decimal import Decimal
 from typing import Collection
+
 from .allocation_item import AllocationItem
 from .contact import Contact
 from .labor_cost_item import LaborCostItem
