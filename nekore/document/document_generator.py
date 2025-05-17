@@ -30,7 +30,7 @@ class DocumentGenerator:
         for n, accounting in enumerate(accountings):
             doc = self.create_document(accounting)
             datestr = accounting.date.strftime("%Y-%m-%d")
-            file = f"{datestr}_Abrechnung_{n+1}_{accounting.recipient.name}.pdf"
+            file = f"{datestr}_Abrechnung_{n + 1}_{accounting.recipient.name}.pdf"
             doc.output(f"{directory}/{file}")
 
     def format_address(self, issuer: Contact, separator: str) -> str:
