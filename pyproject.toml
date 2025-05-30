@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nekore"
-version = "1.1.0"
+version = "1.1.1"
 description = "Create operating cost statements for apartment buildings."
 authors = ["Starbat <45294825+Starbat@users.noreply.github.com>"]
 license = "MIT"
