@@ -39,8 +39,6 @@ class InvoiceCollectionProcessor:
         return AllocationItem(
             gross_total=self.invoice_collection.gross_total,
             gross_share=ratio * self.invoice_collection.gross_total,
-            net_total=self.invoice_collection.net_total,
-            net_share=ratio * self.invoice_collection.net_total,
             shares_total=total_shares,
             shares_allocated=tenant_shares,
             allocation_name=self.allocation_strategy.name,

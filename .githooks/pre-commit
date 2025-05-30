@@ -1,0 +1,41 @@
+echo "Running mypy..."
+
+poetry run mypy .
+
+# Überprüfen Sie den Exit-Code von mypy
+if [ $? -ne 0 ]; then
+  echo "mypy found errors. Commit aborted."
+  exit 1
+fi
+
+echo "Running ruff..."
+poetry run ruff check
+
+# Überprüfen Sie den Exit-Code von ruff
+if [ $? -ne 0 ]; then
+  echo "ruff found errors. Commit aborted."
+  exit 1
+fi
+
+echo "Running ruff format check..."
+poetry run ruff format --check
+
+
+# Überprüfen Sie den Exit-Code von ruff
+if [ $? -ne 0 ]; then
+  echo "ruff format check found errors. Commit aborted."
+  exit 1
+fi
+
+echo "Running pytest ..."
+poetry run pytest
+
+
+# Überprüfen Sie den Exit-Code von ruff
+if [ $? -ne 0 ]; then
+  echo "pytest found errors. Commit aborted."
+  exit 1
+fi
+
+# Wenn alles in Ordnung ist, führen Sie den Commit durch
+exit 0

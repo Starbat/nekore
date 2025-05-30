@@ -7,8 +7,6 @@ class AllocationItem:
     name: str
     gross_total: Decimal
     gross_share: Decimal
-    net_total: Decimal
-    net_share: Decimal
     shares_total: Decimal
     shares_allocated: Decimal
     allocation_name: str

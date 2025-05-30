@@ -27,7 +27,7 @@ apartment_address = {
 
 schwarz, fuchs, anderson = (
     Tenant(
-        contact=Contact(name=name, **apartment_address),
+        contact=Contact(name=name, bank_account=None, **apartment_address),
         number_of_people=people,
         period=TimePeriod(date.fromisoformat(start), date.fromisoformat(end)),
         prepaid=Decimal(prepaid),
