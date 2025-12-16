@@ -1,6 +1,6 @@
 echo "Running mypy..."
 
-poetry run mypy .
+uv run mypy .
 
 # Überprüfen Sie den Exit-Code von mypy
 if [ $? -ne 0 ]; then
@@ -9,7 +9,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Running ruff..."
-poetry run ruff check
+uv run ruff check
 
 # Überprüfen Sie den Exit-Code von ruff
 if [ $? -ne 0 ]; then
@@ -18,7 +18,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Running ruff format check..."
-poetry run ruff format --check
+uv run ruff format --check
 
 
 # Überprüfen Sie den Exit-Code von ruff
@@ -28,7 +28,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Running pytest ..."
-poetry run pytest
+uv run pytest
 
 
 # Überprüfen Sie den Exit-Code von ruff

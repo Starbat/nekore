@@ -10,14 +10,19 @@ permissions:
 jobs:
   pypi-publish:
     runs-on: ubuntu-latest
-    steps: 
-      - uses: actions/checkout@v3
-      - name: Build and publish to pypi
-        uses: JRubics/poetry-publish@v2.1
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python_version: 3.13
-          poetry_version: 2.1.1
-          repository_name: nekore
-          repository_url: https://pypi.org/project/nekore/
-          pypi_token: ${{ secrets.PYPI_TOKEN }}
+          python-version: "3.13"
+      
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+      
+      - name: Publish to PyPI
+        run: uv publish
+        env:
+          UV_PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
 

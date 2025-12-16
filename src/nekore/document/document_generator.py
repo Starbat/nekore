@@ -208,7 +208,6 @@ class DocumentGenerator:
         pdf.set_draw_color(**Color.BLACK)
         pdf.set_font("helvetica", "B", FontSize.TABLE)
         header_align = "L"
-        pdf.epw
         col_w: list[int] = [55, 20, 30, 24, 30, 0]
         pdf.cell(col_w[0], 6, "Kategorie", border="B", align=header_align)
         pdf.cell(col_w[1], 6, "Schlüssel", border="B", align=header_align)

@@ -1,28 +1,33 @@
-[tool.poetry]
+[project]
 name = "nekore"
 version = "1.1.2"
 description = "Create operating cost statements for apartment buildings."
-authors = ["Starbat <45294825+Starbat@users.noreply.github.com>"]
+authors = [
+  { name = "Starbat", email = "45294825+Starbat@users.noreply.github.com" },
+]
 license = "MIT"
 readme = "README.md"
+requires-python = ">=3.13"
+dependencies = ["fpdf2>=2.8.3"]
+
+[project.urls]
 repository = "https://github.com/Starbat/nekore"
 
-[tool.poetry.dependencies]
-python = "^3.13"
-fpdf2 = "^2.8.3"
+[dependency-groups]
+dev = [
+  "mypy>=1.19.1",
+  "pytest>=9.0.2",
+  "pytest-cov>=7.0.0",
+  "ruff>=0.14.9",
+  "types-fpdf2>=2.8.4.20251031",
+]
 
-[tool.poetry.group.dev.dependencies]
-mypy = "^1.15.0"
-pytest = "^8.3.5"
-types-fpdf2 = "^2.8.3.20250516"
-ruff = "^0.11.10"
+[build-system]
+requires = ["uv_build>=0.9.17,<0.10.0"]
+build-backend = "uv_build"
 
 [tool.mypy]
 disallow_untyped_defs = true
 
 [tool.ruff.lint]
-extend-select = ["I"]
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+select = ["I", "F", "B"]

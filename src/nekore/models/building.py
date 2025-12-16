@@ -27,5 +27,7 @@ class Building:
         apartments: Final = (a for a in self.apartments if tenant in a.tenants)
         try:
             return next(apartments)
-        except StopIteration:
-            raise ValueError(f"{tenant} must be resident in an apartment of {self}.")
+        except StopIteration as error:
+            raise ValueError(
+                f"Tenant '{tenant}' not found in any apartment of building '{self}.'"
+            ) from error
